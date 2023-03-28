@@ -42,7 +42,7 @@ const CitiesList = ({ route }) => {
         onChangeText={setSearchQuery}
         value={searchQuery}
       />
-      <FlatList data={filteredCities} renderItem={displayCity} keyExtractor={item => item.Id.toString()} />
+      <FlatList data={filteredCities} renderItem={displayCity} />
     </View>
   );
 };
