@@ -1,33 +1,40 @@
-import { useEffect, useState } from 'react';
-import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native';
-import { styles } from './styles/countriesStyle';
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import styles from './styles/countriesStyle';
 const CountriesList = ({ navigation }) => {
   const [countries, setCountries] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-    fetch('https://api.eatachi.co/api/country')
-      .then(response => {
-        return response.json();
-      })
-      .then(newCountries => {
-        setCountries(newCountries);
-      })
-      .catch(err => Alert.alert('Error', err));
+    async function fetchData() {
+      try {
+        const response = await fetch('https://api.eatachi.co/api/country');
+        const data = await response.json();
+        setCountries(data);
+        setFiltered(data);
+      } catch (error) {
+        Alert.alert('Error', error);
+      }
+    }
+    fetchData();
   }, []);
 
-  const displayCountry = (itemObject) => {
-    const { index, item } = itemObject;
+  useEffect(() => {
+    if (query === "") {
+      setFiltered(countries);
+    }
+    let fiteredCountries = countries.filter((country) => country.Name.toLowerCase().includes(query.toLowerCase()));
+    setFiltered(fiteredCountries);
+  }, [query])
 
+  const displayCountry = ({ index, item }) => {
+    const backgroundColor = index % 2 === 0 ? 'blue' : 'green';
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Cities', { countryId: item.CountryId, countryName: item.Name, })}>
-        <View style={[styles.row, { backgroundColor: index % 2 === 0 ? 'blue' : 'green' }]}>
-          <Text style={styles.textName}>
-            {item.Name}
-          </Text>
-          <Text style={styles.textCurrency}>
-            {item.CurrencyName}
-          </Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Cities', { countryId: item.CountryId, countryName: item.Name })}>
+        <View style={{ ...styles.row, backgroundColor }}>
+          <Text style={styles.textName}>{item.Name}</Text>
+          <Text style={styles.textCurrency}>{item.CurrencyName}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -35,10 +42,14 @@ const CountriesList = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList data={countries} renderItem={displayCountry} />
+      <TextInput
+        placeholder='Search Country...'
+        onChangeText={(e) => setQuery(e)}
+        value={query}
+      />
+      <FlatList data={filtered} renderItem={displayCountry} />
     </View>
   );
-
 };
 
 export default CountriesList;
