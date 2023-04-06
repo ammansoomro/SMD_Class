@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, FlatList, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import styles from './styles/countriesStyle';
-const CountriesList = ({ navigation }) => {
-  const [countries, setCountries] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [query, setQuery] = useState("");
 
+const CountriesList = ({ navigation }) => {
+
+  // ================= DEFINE STATES =================
+  const [countries, setCountries] = useState([]);
+  const [filteredCountries, setFiltered] = useState([]);
+  const [search, setSearch] = useState("");
+
+  // ================= FETCH DATA =================
   useEffect(() => {
     async function fetchData() {
       try {
@@ -20,14 +24,18 @@ const CountriesList = ({ navigation }) => {
     fetchData();
   }, []);
 
+
+  // ================= SEARCH COUNTRIES =================
   useEffect(() => {
-    if (query === "") {
+    if (search === "") {
       setFiltered(countries);
     }
-    let fiteredCountries = countries.filter((country) => country.Name.toLowerCase().includes(query.toLowerCase()));
+    const fiteredCountries = countries.filter((country) => country.Name.toLowerCase().includes(search.toLowerCase()));
     setFiltered(fiteredCountries);
-  }, [query])
+  }, [search])
 
+
+  // ================= DISPLAY COUNTRIES =================
   const displayCountry = ({ index, item }) => {
     const backgroundColor = index % 2 === 0 ? 'blue' : 'green';
     return (
@@ -40,14 +48,15 @@ const CountriesList = ({ navigation }) => {
     );
   };
 
+  // ================= RENDER =================
   return (
     <View style={styles.container}>
       <TextInput
         placeholder='Search Country...'
-        onChangeText={(e) => setQuery(e)}
-        value={query}
+        onChangeText={(e) => setSearch(e)}
+        value={search}
       />
-      <FlatList data={filtered} renderItem={displayCountry} />
+      <FlatList data={filteredCountries} renderItem={displayCountry} />
     </View>
   );
 };

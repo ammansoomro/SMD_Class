@@ -3,26 +3,40 @@ import { Alert, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-
 import styles from './styles/citiesStyle';
 
 const CitiesList = ({ route }) => {
+
+  // ================= DEFINE STATES =================
   const [cities, setCities] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredCities, setFiltered] = useState([]);
+  const [search, setSearch] = useState('');
 
-  const filteredCities = cities.filter(city => {
-    return city.Name.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-
+  // ================= FETCH DATA =================
   useEffect(() => {
     const { countryId } = route.params;
-
-    fetch(`https://api.eatachi.co/api/City/ByCountry/${countryId}`)
-      .then(response => {
-        return response.json();
-      })
-      .then(newCities => {
-        setCities(newCities);
-      })
-      .catch(err => Alert.alert('Error', err));
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://api.eatachi.co/api/City/ByCountry/${countryId}`);
+        const data = await response.json();
+        setCities(data);
+        setFiltered(data);
+      } catch (err) {
+        Alert.alert('Error', err);
+      }
+    };
+    fetchData();
   }, []);
 
+
+  // ================= SEARCH CITIES =================
+  useEffect(() => {
+    if (search === '') {
+      setFiltered(cities);
+    }
+    const filteredCities = cities.filter((city) => city.Name.toLowerCase().includes(search.toLowerCase()));
+    setFiltered(filteredCities);
+  }, [search]);
+
+
+  // ================= DISPLAY CITIES =================
   const displayCity = ({ item, index }) => {
     return (
       <TouchableOpacity>
@@ -33,14 +47,13 @@ const CitiesList = ({ route }) => {
     );
   };
 
+  // ================= RENDER =================
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>List of Cities for {route.params.countryName}</Text>
       <TextInput
-        style={styles.searchInput}
         placeholder="Search cities..."
-        onChangeText={setSearchQuery}
-        value={searchQuery}
+        onChangeText={(e) => setSearch(e)}
+        value={search}
       />
       <FlatList data={filteredCities} renderItem={displayCity} />
     </View>
