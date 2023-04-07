@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Alert, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import styles from './styles/citiesStyle';
 
-const CitiesList = ({ route }) => {
+const CitiesList = ({ route,navigation }) => {
 
   // ================= DEFINE STATES =================
   const [cities, setCities] = useState([]);
@@ -11,7 +11,7 @@ const CitiesList = ({ route }) => {
 
   // ================= FETCH DATA =================
   useEffect(() => {
-    const { countryId } = route.params;
+    const { countryId} = route.params;
     const fetchData = async () => {
       try {
         const response = await fetch(`https://api.eatachi.co/api/City/ByCountry/${countryId}`);
@@ -38,8 +38,9 @@ const CitiesList = ({ route }) => {
 
   // ================= DISPLAY CITIES =================
   const displayCity = ({ item, index }) => {
+
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Countries')}>
         <View style={[styles.cityContainer, { backgroundColor: index % 2 === 0 ? '#EFEFEF' : 'white' }]}>
           <Text style={styles.cityName}>{item.Name}</Text>
         </View>
@@ -50,12 +51,8 @@ const CitiesList = ({ route }) => {
   // ================= RENDER =================
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder="Search cities..."
-        onChangeText={(e) => setSearch(e)}
-        value={search}
-      />
-      <FlatList data={filteredCities} renderItem={displayCity} />
+        <TextInput placeholder="Search cities..." onChangeText={(e) => setSearch(e)} value={search}/>
+        <FlatList data={filteredCities} renderItem={displayCity} />
     </View>
   );
 };
