@@ -11,11 +11,17 @@ const CountriesList = ({ navigation }) => {
 
   // ================= FETCH DATA =================
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
+      try{
+
         const response = await fetch('https://api.eatachi.co/api/country');
         const data = await response.json();
         setCountries(data);
         setFiltered(data);
+      }
+      catch {
+      
+      }
     }
     fetchData();
   }, []);

@@ -11,12 +11,13 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: true }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={Tabs} options={{ title: 'My App' }}/>
         <Stack.Screen name="Countries" component={CountriesList} />
         <Stack.Screen name="Cities" component={CitiesList} options={{ title: 'Cites of a COUNTRY' }}/>
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 
