@@ -18,13 +18,17 @@ This is a React Native app that displays information about cricket and golf matc
 
 1. Clone the repository
 2. Install Dependencies 
-```cd react-native-sports-app
 
-npm install```
+```
+cd <clone folder>
+npm install
+```
+
 3. Start the app
-``` npx react-native run-android  # for Android
-npx react-native run-ios      # for iOS
 
+``` 
+npx react-native run-android  # for Android
+npx react-native run-ios      # for iOS
 ```
 
 ## Usage 
