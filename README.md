@@ -1,4 +1,4 @@
-# React Native Sports App
+# SportsHub
 
 This is a React Native app that displays information about cricket and golf matches. It uses various APIs to fetch data and provides a user-friendly interface for browsing and viewing details of the matches.
 
