@@ -38,12 +38,11 @@ npx react-native run-ios      # for iOS
 3. Tap on a match to view detailed information about it.
 4. Use the bottom tab navigation to switch between cricket and golf matches.
 
-
 ## Screenshots
 
-![Screenshot_1692473160](https://github.com/ammansoomro/SportsHub/assets/63865428/b8869fdc-855e-4073-83a2-1e64845bd8b3)
-
-![Screenshot_1692473302](https://github.com/ammansoomro/SportsHub/assets/63865428/b0efc40f-f9a7-46e7-a9f6-6d27354435f6)
-
-![Screenshot_1692473321](https://github.com/ammansoomro/SportsHub/assets/63865428/455ba360-4554-496c-a3f9-e1fcdd155fe5)
+<div style="display: flex; justify-content: center;">
+  <img src="https://github.com/ammansoomro/SportsHub/assets/63865428/b8869fdc-855e-4073-83a2-1e64845bd8b3" alt="Screenshot_1692473160" width="260" margin: 0 10px;">
+  <img src="https://github.com/ammansoomro/SportsHub/assets/63865428/b0efc40f-f9a7-46e7-a9f6-6d27354435f6" alt="Screenshot_1692473302" width="260" margin: 0 10px;">
+  <img src="https://github.com/ammansoomro/SportsHub/assets/63865428/455ba360-4554-496c-a3f9-e1fcdd155fe5" alt="Screenshot_1692473321" width="260" margin: 0 10px;">
+</div>
 
